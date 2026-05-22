@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
@@ -18,11 +19,9 @@ class MainActivity : AppCompatActivity() {
         val campoPreco = findViewById<EditText>(R.id.campoPreco)
 
         val btnCalcular = findViewById<Button>(R.id.btnCalcular)
-
-        val textoResultado = findViewById<TextView>(R.id.textoResultado)
+        val btnLimpar = findViewById<Button>(R.id.btnLimpar)
 
         btnCalcular.setOnClickListener(){
-
             try {
                 val distancia: Double = campoDistancia.text.toString().toDouble()
                 val autonomia: Double = campoAutonomia.text.toString().toDouble()
@@ -41,15 +40,33 @@ class MainActivity : AppCompatActivity() {
                 val consumo = distancia / autonomia;
                 val gasto = consumo * preco
 
-                textoResultado.setText(
-                    " Distância: %.2f KM".format(distancia) +
-                            "\n Consumo: %.2f Litros".format(consumo) +
-                            "\n Gasto estimado: R$ %.2f".format(gasto)
-                )
+                val mensagem =
+                    "\nDistância: %.2f KM".format(distancia) +
+                            "\n\nConsumo: %.2f Litros".format(consumo) +
+                            "\n\nGasto estimado: R$ %.2f".format(gasto)
+
+                AlertDialog.Builder(this)
+                    .setTitle("Resultado da Viagem:")
+                    .setMessage(mensagem)
+                    .setPositiveButton("OK", null)
+                    .show()
             } catch (e: Exception){
                 Toast.makeText(
                     this,
                     "Preencha todos os campos corretamente!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        btnLimpar.setOnClickListener(){
+            try {
+                campoDistancia.setText(null)
+                campoAutonomia.setText(null)
+                campoPreco.setText(null)
+            } catch (e : Exception){
+                Toast.makeText(
+                    this,
+                    "Ocorreu um erro!",
                     Toast.LENGTH_SHORT
                 ).show()
             }
