@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CalcularViagemActivity" />
+        <activity android:name=".ConstrucaoActivity" />
+        <activity android:name=".SobreActivity" />
     </application>
 
 </manifest>
